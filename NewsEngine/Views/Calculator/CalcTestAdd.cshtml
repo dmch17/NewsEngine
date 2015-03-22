@@ -1,0 +1,12 @@
+﻿@Model NewsEngine.Models.CalculatorModel;
+
+@{
+    ViewBag.Title = "CalcTestAdd";
+}
+
+<h2>CalcTestAdd</h2>
+
+<p>Значение первой переменной: @Model.X</p>
+<p>Значение второй переменной: @Model.Y</p>
+<p>Операция: @Model.Operation</p>
+<p>Результат: @Model.GetResult() </p>

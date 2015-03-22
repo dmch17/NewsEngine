@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using NewsEngine.Models;
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -21,9 +23,11 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Текущая дата", "Index", "Pages")</li>
+                    @*<li>@Html.ActionLink("Текущая дата", "Index", "Pages")</li>
                     <li>@Html.ActionLink("Обо мне", "About", "Pages")</li>
-                    <li>@Html.ActionLink("Тест движка", "RazorTest", "Pages")</li>
+                    <li>@Html.ActionLink("Тест движка", "RazorTest", "Pages")</li>*@
+                    <li>@Html.ActionLink("Тест калькулятора (4+2=6)", "CalcTestAdd", "Calculator", new CalculatorModel{ X = 4d, Y = 2d, Operation = CalculatorModel.CalculatorOperation.Add }, null)</li>
+                    <li>@Html.ActionLink("Калькулятор", "CalcForm", "Calculator")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
