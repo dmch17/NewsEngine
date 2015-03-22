@@ -1,0 +1,18 @@
+﻿@Model NewsEngine.Models.CalculatorModel;
+
+@{
+    ViewBag.Title = "CalcForm";
+}
+
+<h2>CalcForm</h2>
+
+@using(Html.BeginForm("CalcForm","Calculator", FormMethod.Post))
+{
+    <p>Значение первой переменной: @Html.TextBox("X")</p>
+    <p>Значение второй переменной: @Html.TextBox("Y")</p>
+    <p>Операция: @Html.DropDownList("Operation", (List<SelectListItem>)ViewBag.Operations)</p>
+    <input type="submit" value="Рассчитать"/>
+}
+
+<p>Результат: @Model.GetResult()</p>
+

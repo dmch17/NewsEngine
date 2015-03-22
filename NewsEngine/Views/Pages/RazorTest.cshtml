@@ -1,13 +1,12 @@
 ﻿
-@using NewsEngine.UserInfo.SomeoneInfo;
+@using NewsEngine.UserInfo;
 
-@{
-    
+@{    
     ViewBag.Title = "RazorTest";
-    List<NewsEngine.UserInfo.SomeoneInfo> names = new List<NewsEngine.UserInfo.SomeoneInfo>();
-    names.Add(new NewsEngine.UserInfo.SomeoneInfo() { Name = "Иванов", Age = 18, DateOfBirth = new DateTime(2015, 10, 1)});
-    names.Add(new NewsEngine.UserInfo.SomeoneInfo() { Name = "Петров", Age = 20, DateOfBirth = new DateTime(2015, 11, 1) });
-    names.Add(new NewsEngine.UserInfo.SomeoneInfo() { Name = "Сидоров", Age = 25, DateOfBirth = new DateTime(2015, 12, 1) });
+    List<SomeoneInfo> names = new List<SomeoneInfo>();
+    names.Add(new SomeoneInfo() { Name = "Иванов", Age = 18, DateOfBirth = new DateTime(2015, 10, 1)});
+    names.Add(new SomeoneInfo() { Name = "Петров", Age = 20, DateOfBirth = new DateTime(2015, 11, 1) });
+    names.Add(new SomeoneInfo() { Name = "Сидоров", Age = 25, DateOfBirth = new DateTime(2015, 12, 1) });
 }
 
 <h2>RazorTest</h2>
@@ -16,7 +15,7 @@
 
 <ol>
     @{
-        foreach (NewsEngine.UserInfo.SomeoneInfo name in names)
+        foreach (SomeoneInfo name in names)
         {
             <li>@(name.Name) @(name.Age) @(name.DateOfBirth.ToString("dd.MM.yyyy"))</li>
         }
@@ -32,7 +31,7 @@
         <th>Дата рождения</th>
     </tr>
     @{
-        foreach (NewsEngine.UserInfo.SomeoneInfo name in names)
+        foreach (SomeoneInfo name in names)
         {
             <tr>
                 <td>@(name.Name)</td>
