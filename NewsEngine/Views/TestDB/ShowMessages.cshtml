@@ -1,0 +1,17 @@
+﻿@using NewsEngine.Models;
+@{
+    ViewBag.Title = "ShowMessages";
+}
+
+<h2>ShowMessages</h2>
+<p>Список</p>
+<ol>
+    @{
+        foreach (Message message in (List<Message>)ViewBag.Messages)
+        {
+            <li>@message.CurrentDate @message.MessageTitle @message.Text</li>
+        }
+
+    }
+</ol>
+

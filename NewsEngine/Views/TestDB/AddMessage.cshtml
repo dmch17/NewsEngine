@@ -1,0 +1,13 @@
+﻿@model NewsEngine.Models.Message
+
+@{
+    ViewBag.Title = "AddMessage";
+}
+
+<h2>AddMessage</h2>
+@using(Html.BeginForm("AddMessage","TestDB", FormMethod.Post))
+{
+    <p>Заголовок новости: @Html.TextBox("MessageTitle")</p>
+    <p>Текст новости: @Html.TextArea("Text")</p>
+    <input type="submit" value="Создать"/>
+}
