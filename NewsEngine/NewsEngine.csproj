@@ -190,7 +190,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Helpers\GetDropDownList.cshtml" />
+    <Content Include="App_Code\Helpers.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -246,6 +246,8 @@
     <Content Include="Views\TestDB\InitializeDB.cshtml" />
     <Content Include="Views\TestDB\AddMessage.cshtml" />
     <Content Include="Views\TestDB\ShowMessages.cshtml" />
+    <Content Include="Views\TestDB\EditMessage.cshtml" />
+    <Content Include="Views\Shared\_MessageParams.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

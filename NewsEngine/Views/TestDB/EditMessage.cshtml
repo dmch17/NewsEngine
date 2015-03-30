@@ -1,0 +1,13 @@
+﻿@model NewsEngine.Models.Message
+
+@{
+    ViewBag.Title = "EditMessage";
+}
+
+<h2>EditMessage</h2>
+
+@using (Html.BeginForm("EditMessage", "TestDB", FormMethod.Post))
+{
+    @Html.Partial("_MessageParams");
+}
+

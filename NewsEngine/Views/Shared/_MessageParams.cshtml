@@ -1,0 +1,11 @@
+﻿@model NewsEngine.Models.Message
+
+@{
+    ViewBag.Title = "View";
+}
+
+<p>@Html.DisplayNameFor(message => message.MessageTitle): @Html.EditorFor(message => message.MessageTitle) @Html.ValidationMessageFor(message => message.MessageTitle)</p>
+<p></p>
+<p>@Html.DisplayNameFor(message => message.Text): @Html.EditorFor(message => message.Text)</p>
+<input type="submit" value="Создать" />
+

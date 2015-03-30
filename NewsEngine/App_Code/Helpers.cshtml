@@ -1,0 +1,18 @@
+﻿@using NewsEngine.Models;
+
+@helper GetLastNews(List<Message> messages, int numberMessages = 3) 
+{
+    <p>Последние новости</p>
+    <ol>
+        @{
+            for (int currentMessage = messages.Count - 1; currentMessage > 0; currentMessage--)
+            {
+                <li>@messages[currentMessage].CurrentDate @messages[currentMessage].MessageTitle @messages[currentMessage].Text</li>
+                if (currentMessage == messages.Count - numberMessages)
+                {
+                    break;
+                }
+            }
+        }
+    </ol>
+}

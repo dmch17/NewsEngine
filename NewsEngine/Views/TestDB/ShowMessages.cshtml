@@ -9,9 +9,12 @@
     @{
         foreach (Message message in (List<Message>)ViewBag.Messages)
         {
-            <li>@message.CurrentDate @message.MessageTitle @message.Text</li>
+            <li>@message.CurrentDate @message.MessageTitle @message.Text @Html.ActionLink("Редактировать", "EditMessage", "TestDB", new Message() { Id = message.Id }, null) @Html.ActionLink("Удалить", "DeleteMessage", "TestDB", new Message(){ Id = message.Id }, null) </li>
         }
-
     }
 </ol>
+
+<footer>
+    @Helpers.GetLastNews((List<Message>)ViewBag.Messages)
+</footer>
 
