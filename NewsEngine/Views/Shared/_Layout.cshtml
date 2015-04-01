@@ -28,9 +28,18 @@
                     <li>@Html.ActionLink("Тест движка", "RazorTest", "Pages")</li>*@
                     @*<li>@Html.ActionLink("Тест калькулятора (4+2=6)", "CalcTestAdd", "Calculator", new CalculatorModel{ X = 4d, Y = 2d, Operation = CalculatorModel.CalculatorOperation.Add }, null)</li>
                     <li>@Html.ActionLink("Калькулятор", "CalcForm", "Calculator")</li>*@
-                    <li>@Html.ActionLink("Тестовая инициализация базы данных","InitializeDB","TestDB")</li>
-                    <li>@Html.ActionLink("Добавить сообщение", "AddMessage", "TestDB")</li>
-                    <li>@Html.ActionLink("Показать список сообщений", "SHowMessages", "TestDB")</li>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <li>@Html.ActionLink("Тестовая инициализация базы данных", "InitializeDB", "TestDB")</li>
+                    }
+                    @if (User.IsInRole("admin"))
+                    {
+                        <li>@Html.ActionLink("Добавить сообщение", "AddMessage", "TestDB")</li>
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Показать список сообщений", "ShowMessages", "TestDB", null, null)</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

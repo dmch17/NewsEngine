@@ -9,7 +9,21 @@
     @{
         foreach (Message message in (List<Message>)ViewBag.Messages)
         {
-            <li>@message.CurrentDate @message.MessageTitle @message.Text @Html.ActionLink("Редактировать", "EditMessage", "TestDB", new Message() { Id = message.Id }, null) @Html.ActionLink("Удалить", "DeleteMessage", "TestDB", new Message(){ Id = message.Id }, null) </li>
+            <li>
+                <p>@message.MessageTitle</p>
+                <p>@message.CurrentDate.ToString("dd.MM.yyyy")</p>
+                @if (User.IsInRole("admin"))
+                {
+                    <p>@Html.ActionLink("Редактировать", "EditMessage", "TestDB", new Message() { Id = message.Id }, null) @Html.ActionLink("Удалить", "DeleteMessage", "TestDB", new Message() { Id = message.Id }, null)</p>
+                }            
+                <p>@Html.Raw(message.Text.Replace("\r\n", " <br/> "))</p>
+                <p>Тэги:</p>
+                @foreach (Tag tag in message.Tags)
+                {
+                    <p>@Html.ActionLink(tag.TagText, "ShowMessages", "TestDB", tag, null)</p>
+                }
+                <p>Автор: @message.Author.UserName</p>
+            </li>
         }
     }
 </ol>

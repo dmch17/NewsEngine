@@ -25,6 +25,7 @@ namespace NewsEngine.Models
     {
         public DbSet<Message> Messages { get; set; }
         public DbSet<Reply> Replies { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

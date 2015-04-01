@@ -10,5 +10,6 @@ namespace NewsEngine.Models
         public int Id { get; set; }
         public String Text { get; set; }
         public virtual Message Message { get; set; }
+        public virtual ApplicationUser Author { get; set; }
     }
 }

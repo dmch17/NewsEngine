@@ -19,12 +19,14 @@ namespace NewsEngine.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public ActionResult AddMessage()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public ActionResult AddMessage(Message message)
         {
             testDB.Messages.Add(message);
@@ -33,6 +35,7 @@ namespace NewsEngine.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteMessage(int? id)
         {
             if (id == null)
@@ -53,6 +56,7 @@ namespace NewsEngine.Controllers
         }
         
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public ActionResult EditMessage(int? id)
         {
             if (id == null)
@@ -68,29 +72,39 @@ namespace NewsEngine.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public ActionResult EditMessage(Message message)
         {
             if (message == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            int? id = (testDB.Messages.Find(message.Id)).Id;
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
-            }
-            Message newMessage = testDB.Messages.Find(message.Id);
-            newMessage.Text = message.Text;
-            newMessage.MessageTitle = message.MessageTitle;
-            testDB.Entry(newMessage).State = EntityState.Modified;
-            //testDB.Entry(message).State = EntityState.Modified;
+            testDB.Entry(message).State = EntityState.Modified;
             testDB.SaveChanges();
             return RedirectToAction("ShowMessages");
         }
 
-        public ActionResult ShowMessages()
+        public ActionResult ShowMessages(Tag tag)
         {
-            ViewBag.Messages = testDB.Messages.OrderBy(messages=>messages.CurrentDate).ToList<Message>();
+            if (tag.Id == 0)
+            {
+                ViewBag.Messages = testDB.Messages.OrderBy(messages => messages.CurrentDate).ToList<Message>();
+            }
+            else
+            {
+                List<Message> messages = new List<Message>();
+                foreach(Message message in testDB.Messages.ToList<Message>())
+                {
+                    foreach(Tag currentTag in message.Tags)
+                    {
+                        if (currentTag.Id == tag.Id)
+                        {
+                            messages.Add(message);
+                        }
+                    }
+                }
+                ViewBag.Messages = messages;
+            }
             return View();
         }
 
