@@ -5,13 +5,10 @@
     <p>Последние новости</p>
     <ol>
         @{
-            for (int currentMessage = messages.Count - 1; currentMessage > 0; currentMessage--)
+            messages = messages.OrderByDescending(message => message.CurrentDate).Take(numberMessages).ToList<Message>();
+            foreach(Message message in messages)
             {
-                <li>@messages[currentMessage].CurrentDate @messages[currentMessage].MessageTitle @messages[currentMessage].Text</li>
-                if (currentMessage == messages.Count - numberMessages)
-                {
-                    break;
-                }
+                <li>@message.CurrentDate.ToString("dd.MM.yyyy HH:mm") @message.MessageTitle</li>
             }
         }
     </ol>

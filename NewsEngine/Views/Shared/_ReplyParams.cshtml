@@ -1,0 +1,9 @@
+﻿@model NewsEngine.Models.Reply
+
+@{
+    ViewBag.Title = "View";
+}
+<p>@Html.HiddenFor(reply => reply.Message.Id)</p>
+<p>@Html.DisplayNameFor(reply => reply.Text): @Html.EditorFor(reply => reply.Text)</p>
+<input type="submit" value=@ViewBag.ConfirmName />
+

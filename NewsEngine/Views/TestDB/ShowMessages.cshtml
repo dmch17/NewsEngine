@@ -1,17 +1,20 @@
-﻿@using NewsEngine.Models;
+﻿@model PagedList.IPagedList<NewsEngine.Models.Message> 
+@using NewsEngine.Models;
+@using PagedList.Mvc;
+@using PagedList;
 @{
     ViewBag.Title = "ShowMessages";
 }
 
 <h2>ShowMessages</h2>
 <p>Список</p>
-<ol>
+<ul>
     @{
-        foreach (Message message in (List<Message>)ViewBag.Messages)
+        foreach (Message message in Model)
         {
             <li>
                 <p>@message.MessageTitle</p>
-                <p>@message.CurrentDate.ToString("dd.MM.yyyy")</p>
+                <p>@message.CurrentDate.ToString("dd.MM.yyyy HH:mm")</p>
                 @if (User.IsInRole("admin"))
                 {
                     <p>@Html.ActionLink("Редактировать", "EditMessage", "TestDB", new Message() { Id = message.Id }, null) @Html.ActionLink("Удалить", "DeleteMessage", "TestDB", new Message() { Id = message.Id }, null)</p>
@@ -20,15 +23,17 @@
                 <p>Тэги:</p>
                 @foreach (Tag tag in message.Tags)
                 {
-                    <p>@Html.ActionLink(tag.TagText, "ShowMessages", "TestDB", tag, null)</p>
+                    <p>@Html.ActionLink(tag.TagText, "ShowMessages", "TestDB", new { tagId = tag.Id }, null)</p>
                 }
                 <p>Автор: @message.Author.UserName</p>
+                <p>@Html.ActionLink("Открыть", "ShowMessage", "TestDB", new { id = message.Id }, null)</p>
             </li>
         }
+        @Html.PagedListPager(Model, page => Url.Action("ShowMessages", new { page, tagId = ViewBag.TagId }));
     }
-</ol>
+</ul>
 
 <footer>
-    @Helpers.GetLastNews((List<Message>)ViewBag.Messages)
+    @*@Helpers.GetLastNews((List<Message>)ViewBag.Messages)*@
 </footer>
 

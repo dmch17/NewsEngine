@@ -1,0 +1,12 @@
+﻿@model NewsEngine.Models.Reply
+
+@{
+    ViewBag.Title = "EditReply";
+}
+
+<h2>EditReply</h2>
+@using (Html.BeginForm("EditReply", "TestDB", FormMethod.Post))
+{
+    ViewBag.ConfirmName = "Изменить";
+    @Html.Partial("_ReplyParams", Model);
+}

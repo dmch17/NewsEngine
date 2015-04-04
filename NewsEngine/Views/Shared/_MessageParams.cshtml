@@ -5,7 +5,6 @@
 }
 
 <p>@Html.DisplayNameFor(message => message.MessageTitle): @Html.EditorFor(message => message.MessageTitle)</p>
-<p>@Html.ValidationMessageFor(message => message.MessageTitle)</p>
 <p>@Html.DisplayNameFor(message => message.Text): @Html.EditorFor(message => message.Text)</p>
-<input type="submit" value="Создать" />
+<input type="submit" value=@ViewBag.ConfirmName />
 

@@ -1,0 +1,10 @@
+﻿@model ICollection<NewsEngine.Models.Reply>
+@using NewsEngine.Models;
+
+@if(ViewBag.Comment != null)
+{
+    String comment = ViewBag.Comment;
+    <p>@String.Concat(comment, " lol")</p>
+}
+
+

@@ -12,12 +12,9 @@ namespace NewsEngine.Models
         public int Id { get; set; }
 
         [Display(Name = "Текст")]
-        [Required]
         [DataType(System.ComponentModel.DataAnnotations.DataType.MultilineText)]
         public String Text { get; set; }
         [Display(Name = "Заголовок")]
-        [Required]
-        [StringLength(25, MinimumLength = 5, ErrorMessage = "Длина титула должна быть от 5 до 15 символов")]
         public String MessageTitle { get; set; }
         public DateTime CurrentDate { get; private set; }
 

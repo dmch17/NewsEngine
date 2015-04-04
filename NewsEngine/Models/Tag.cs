@@ -11,7 +11,6 @@ namespace NewsEngine.Models
     {
         public int Id { get; set; }
 
-        [Required]
         [Display(Name = "Тег")]
         public string TagText { get; set; }
 

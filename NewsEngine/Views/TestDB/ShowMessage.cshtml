@@ -1,0 +1,43 @@
+﻿@model NewsEngine.Models.Message
+
+@using NewsEngine.Models;
+
+@{
+    ViewBag.Title = "ShowMessage";
+}
+
+<h2>ShowMessage</h2>
+<p>@Model.MessageTitle</p>
+<p>@Html.Raw(Model.Text)</p>
+@{
+    <p>@Html.ActionLink("Добавить", "AddReply", "TestDB", new { messageId = Model.Id }, null)</p>
+    if (Model.Replies != null)
+    {
+        <p>Ajax тест</p>
+        using (Ajax.BeginForm("LolComment", new AjaxOptions { UpdateTargetId = "RComments" }))
+        {
+            @Html.TextBox("comment");
+            <button type="submit">Получить значение</button>
+        }
+        <div id="RComments">
+
+        </div>
+        ICollection<Reply> replies = Model.Replies;
+        <p>Комментарии:</p>
+            <ol>
+                @foreach (Reply reply in replies)
+                {
+                    <li>
+                        <p>@Html.Raw(reply.Text.Replace("\r\n", " <br/> "))</p>
+                        <p>@reply.Author.UserName</p>
+                        <p>
+                            @if (User.Identity.Name == reply.Author.Id || User.IsInRole("admin"))
+                            {
+                                @Html.ActionLink("Редактировать", "EditReply", "TestDB", new { id = reply.Id }, null)
+                            }
+                        </p>
+                    </li>
+                }
+            </ol>
+    }
+}

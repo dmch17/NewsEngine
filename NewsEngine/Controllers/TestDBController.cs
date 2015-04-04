@@ -6,6 +6,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using NewsEngine.Models;
+using Microsoft.AspNet.Identity;
+using PagedList.Mvc;
+using PagedList;
 
 namespace NewsEngine.Controllers
 {
@@ -29,6 +32,7 @@ namespace NewsEngine.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult AddMessage(Message message)
         {
+            message.Author = GetUserById(this.User.Identity.GetUserId());
             testDB.Messages.Add(message);
             testDB.SaveChanges();
             return RedirectToAction("ShowMessages");
@@ -84,28 +88,92 @@ namespace NewsEngine.Controllers
             return RedirectToAction("ShowMessages");
         }
 
-        public ActionResult ShowMessages(Tag tag)
+        public ActionResult ShowMessages(int? page, int? tagId)
         {
-            if (tag.Id == 0)
+            int pageNumber = page == null ? 1 : (int)page;
+            if (tagId == null)
             {
-                ViewBag.Messages = testDB.Messages.OrderBy(messages => messages.CurrentDate).ToList<Message>();
+                return View(testDB.Messages.OrderByDescending(message => message.CurrentDate).ToPagedList(pageNumber, 5));
             }
             else
             {
+                ViewBag.TagId = tagId;
                 List<Message> messages = new List<Message>();
-                foreach(Message message in testDB.Messages.ToList<Message>())
+                foreach (Message message in testDB.Messages.ToList<Message>())
                 {
-                    foreach(Tag currentTag in message.Tags)
+                    foreach (Tag currentTag in message.Tags)
                     {
-                        if (currentTag.Id == tag.Id)
+                        if (currentTag.Id == tagId)
                         {
                             messages.Add(message);
                         }
                     }
                 }
-                ViewBag.Messages = messages;
+                return View(messages.OrderByDescending(message => message.CurrentDate).ToPagedList(pageNumber, 5));
             }
-            return View();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult AddReply(int? messageId)
+        {
+            return View(new Reply { Message = testDB.Messages.FirstOrDefault(message => message.Id == messageId)});
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult AddReply(Reply reply)
+        {
+            reply.Author = GetUserById(this.User.Identity.GetUserId());
+            reply.Message = testDB.Messages.FirstOrDefault(message => message.Id == reply.Message.Id);
+            testDB.Replies.Add(reply);
+            testDB.SaveChanges();
+            return RedirectToAction("ShowMessage", new { id = reply.Message.Id });
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult EditReply(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Reply reply = testDB.Replies.Find(id);
+            if (reply == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            return View(reply);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult EditReply(Reply reply)
+        {
+            if (reply == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            testDB.Entry(reply).State = EntityState.Modified;
+            testDB.SaveChanges();
+            return RedirectToAction("ShowMessage", new { id = reply.Message.Id });
+        }
+
+        public ActionResult ShowMessage(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Message message = testDB.Messages.Find(id);
+            return View(message);
+        }
+
+        public PartialViewResult LolComment(String comment)
+        {
+            ViewBag.Comment = comment;
+            return PartialView();
         }
 
         protected override void Dispose(bool disposing)
@@ -115,6 +183,11 @@ namespace NewsEngine.Controllers
                 testDB.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private ApplicationUser GetUserById(String userId)
+        {
+            return testDB.Users.FirstOrDefault(user => user.Id == userId);
         }
     }
 }
