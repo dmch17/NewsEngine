@@ -5,8 +5,9 @@
 }
 
 <h2>AddMessage</h2>
-@using(Html.BeginForm("AddMessage","TestDB", FormMethod.Post))
+@using (Html.BeginForm("AddMessage", "TestDB", FormMethod.Post, new { enctype = "multipart/form-data"}))
 {
+    ViewBag.IsEdit = false;
     ViewBag.ConfirmName = "Создать";
     @Html.Partial("_MessageParams");
 }

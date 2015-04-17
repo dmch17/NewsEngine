@@ -10,6 +10,15 @@
 <p>@Model.MessageTitle</p>
 <p>@Html.Raw(Model.Text)</p>
 @{
+    <p>
+        @{
+            if(Model.Image != null)
+            {
+                <img src="~/Images/@Model.Image.DiskName"/>
+            }
+        }
+
+    </p>
     <p>@Html.ActionLink("Добавить", "AddReply", "TestDB", new { messageId = Model.Id }, null)</p>
     if (Model.Replies != null)
     {

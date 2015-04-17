@@ -6,5 +6,25 @@
 
 <p>@Html.DisplayNameFor(message => message.MessageTitle): @Html.EditorFor(message => message.MessageTitle)</p>
 <p>@Html.DisplayNameFor(message => message.Text): @Html.EditorFor(message => message.Text)</p>
+<p>
+    @{
+        if (Model != null)
+        {
+            if (Model.Image != null)
+            {
+                <img src="~/Images/@Model.Image.DiskName" />
+                @Html.ActionLink("Удалить", "DeleteImage", "TestDB", Model, null)
+            }
+            else
+            {
+                <input type="file" name="image" />
+            }
+        }
+        else
+        {
+            <input type="file" name="image" />
+        }
+}
+</p>
 <input type="submit" value=@ViewBag.ConfirmName />
 

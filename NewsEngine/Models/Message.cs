@@ -22,6 +22,9 @@ namespace NewsEngine.Models
         public virtual ICollection<Tag> Tags { get; set; }
         public virtual ApplicationUser Author { get; set; }
 
+        public int? ImageId { get; set; }
+        public virtual File Image { get; set; }
+
         public Message()
         {
             Tags = new List<Tag>();

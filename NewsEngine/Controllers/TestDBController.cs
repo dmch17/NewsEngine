@@ -34,6 +34,26 @@ namespace NewsEngine.Controllers
         {
             message.Author = GetUserById(this.User.Identity.GetUserId());
             testDB.Messages.Add(message);
+
+            var image = this.Request.Files["image"];
+            if (image != null && !String.IsNullOrEmpty(image.FileName))
+            {
+                if(image.FileName.EndsWith(".jpg") || image.FileName.EndsWith(".png") || image.FileName.EndsWith(".gif"))
+                {
+                    File file = new File() { Ext = NewsEngine.Models.File.GetExt(image.FileName) };
+                    testDB.Images.Add(file);
+                    testDB.SaveChanges();
+                    var filePath = Server.MapPath(Url.Content("~/Images/" + file.DiskName));
+                    image.SaveAs(filePath);
+                    message.Image = file;
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Файл с неправильным расширением");
+                    return View(message);
+                }
+            }
+
             testDB.SaveChanges();
             return RedirectToAction("ShowMessages");
         }
@@ -83,7 +103,27 @@ namespace NewsEngine.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             testDB.Entry(message).State = EntityState.Modified;
+
+            var image = this.Request.Files["image"];
+            if (image != null && !String.IsNullOrEmpty(image.FileName))
+            {
+                if (image.FileName.EndsWith(".jpg") || image.FileName.EndsWith(".png") || image.FileName.EndsWith(".gif"))
+                {
+                    File file = new File() { Ext = NewsEngine.Models.File.GetExt(image.FileName) };
+                    testDB.Images.Add(file);
+                    testDB.SaveChanges();
+                    var filePath = Server.MapPath(Url.Content("~/Images/" + file.DiskName));
+                    image.SaveAs(filePath);
+                    message.Image = file;
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Файл с неправильным расширением");
+                    return View(message);
+                }
+            }
             testDB.SaveChanges();
             return RedirectToAction("ShowMessages");
         }
@@ -145,6 +185,18 @@ namespace NewsEngine.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
             return View(reply);
+        }
+
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult DeleteImage(Message message)
+        {
+            message.Image = null;
+            message.ImageId = null; ;
+            testDB.Entry(message).State = EntityState.Modified;
+            testDB.SaveChanges();
+            return RedirectToAction("EditMessage", message);
         }
 
         [HttpPost]
